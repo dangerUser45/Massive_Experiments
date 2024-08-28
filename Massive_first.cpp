@@ -1,0 +1,59 @@
+#include <stdio.h>
+void Print1 (double *adress, size_t size_X, size_t size_Y);
+void Print2 (double table_2 [], size_t size_Y);
+
+
+int main (void)
+    {
+        double table_1 [3][5] = {
+                                 {12, 13, 14, 15, 16},
+                                 {21, 22, 23, 24, 25},
+                                 {31, 32, 33, 34, 35}
+                                };
+        const size_t size_X1 = sizeof(table_1[0]) / sizeof(table_1[0][0]);
+        const size_t size_Y1 = sizeof(table_1) / sizeof(table_1[0]);
+        Print1 ((double*)table_1, size_X1, size_Y1);
+
+        double table_2 [] = {
+                             28,
+                             69, 21,
+                             32, 64, 128,
+                             11, 12, 13, 14,
+                             33, 45 ,67, 56, 45
+                            };
+
+        const size_t size_Y2 = 5;
+
+        Print2 (table_2, size_Y2);
+    }
+
+void Print1 (double *adress, size_t size_X, size_t size_Y)
+    {
+        double sum = 0;
+        for (size_t y = 0; y < size_Y; y++)
+            {
+                for (size_t x = 0; x < size_X; x++)
+                    {
+                        printf("table [%lld][%lld] = %lg ",
+                                y, x, *(adress + (y * size_X) + x));
+                         sum += *(adress + (y * size_X) + x);
+                    }
+                printf("\n");
+            }
+         printf("Sum = %lg\n", sum);
+    }
+
+void Print2 (double* table_2, size_t size_Y)
+    {
+        printf("Step: \n");
+        int counter = 0;
+        for (size_t y = 0; y < size_Y; y++)
+            {
+                for (size_t i = 0; i <= y  ; i ++)
+                    {
+                        printf("%lg ", table_2 [counter]);
+                        q++;
+                    }
+                printf("\n");
+            }
+    }

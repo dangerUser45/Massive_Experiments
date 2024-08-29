@@ -3,31 +3,34 @@
 #include <stdlib.h>
 #include <assert.h>
 
-int** Processing_address (int * const string_quantity);
+int** Processing_address (int * const string_quantity, int** param_matrix);
 int* Matrix (int ** address_for_address, const int string_quantity, bool first_or_second);
-int** Creating_an_array_of_addresses (int** address_for_address1, int string_quantity);
+int** Creating_an_array_of_addresses (int** address_for_address1, int string_quantity)
 void Address_add_sizeof (size_t* address_for_address, int* address_matrix, int string_quantity);
-void Sum (int* address_matrix1, int* address_matrix2, size_t size_matrix);
+int* Sum (int** address_for_address1, int** address_for_address2, size_t size_matrix, int string_quantity, int * param_matrix);
 void Print_Matrix (int* address_matrix, int* copy_param_matrix, int string_quantity);
+void Print_Input (bool one_or_two);
+void Free_All (int** address_for_address1, int** address_for_address2, int* , address_matrix1, int* address_matrix2, int* adr_sum);
 
 int main (void)
     {
         setlocale(LC_ALL, "Russian");
         int string_quantity = 0;
-        int** address_for_address1 = Processing_address (&string_quantity);
+        int* param_matrix = 0;
+        int** address_for_address1 = Processing_address (&string_quantity, &param_matrix);
         size_t size_matrix = (size_t) address_for_address1[string_quantity];
-        int copy_param_matrix [string_quantity] = address_for_address1 [];
         int** address_for_address2 = Creating_an_array_of_addresses (address_for_address1, string_quantity);
         int* address_matrix1 = Matrix (address_for_address1, string_quantity, true);
+        Print_Input (true);
+        Print_Matrix (address_matrix1, param_matrix, string_quantity);
         int* address_matrix2 = Matrix (address_for_address2, string_quantity, false);
+        Print_Input (false);
+        Print_Matrix (address_matrix2, param_matrix, string_quantity);
         Address_add_sizeof (address_for_address1, address_matrix1, string_quantity);
         Address_add_sizeof (address_for_address2, address_matrix2, string_quantity);
-        int* adr_sum = Sum (address_matrix1, address_matrix2, size_matrix);
-        Print_Matrix (adr_sum, copy_param_matrix, string_quantity);
-        free (address_for_address1);
-        free (address_for_address2);
-        free (address_matrix1);
-        free (adr_sum);
+        int* adr_sum = Sum (address_matrix1, address_matrix2, size_matrix, string_quantity, param_matrix);
+        Print_Matrix (adr_sum, param_matrix, string_quantity);
+        Free_All (address_for_address1, address_for_address2, address_matrix1, address_matrix2, adr_sum);
         return 0;
     }
 
@@ -46,27 +49,30 @@ int* Matrix (int ** address_for_address, const int string_quantity, bool first_o
          return address_matrix;
     }
 
-int** Processing_address (int * const string_quantity)
+int** Processing_address (int * const string_quantity, int** param_matrix)
     {
         printf("Введите кол-во рядов : ");
         scanf("%d", string_quantity);
         int ** address_for_address1 = (int **) calloc ((*string_quantity) + 1, sizeof(int));
+        (*param_matrix) = (int*) calloc ((*string_quantity) + 1, sizeof(int));
         if (address_for_address1 == NULL)
             return 0;
 
         printf("Введите кол-во элементов в каждом ряду: ");
         address_for_address1[0] = 0;
+        *(param_matrix[0]) = 0;
         int arr = 0;
         for (int i = 1; i <= *string_quantity; i++)
             {
                 scanf("%d",  &arr);
+                *(param_matrix[i]) = arr;
                 address_for_address1[i] = (int*) arr;
                 address_for_address1[i] += address_for_address1[i-1];
             }
         return address_for_address1;
     }
 
- void Address_add_sizeof (int** address_for_address, int* address_matrix, int string_quantity)
+void Address_add_sizeof (int** address_for_address, int* address_matrix, int string_quantity)
     {
         for (int i = 0; i <= string_quantity; i++)
             {
@@ -85,29 +91,48 @@ int** Creating_an_array_of_addresses (int** address_for_address1, int string_qua
         return address_for_address2;
     }
 
-void Sum (int* addres_matrix1, int* address_matrix2, size_t size_matrix)
+int* Sum (int** address_for_address1, int** address_for_address2, size_t size_matrix, int string_quantity, int * param_matrix);
     {
         int* adr_sum = (int*) calloc (size_matrix, sizeof(int));
-        for (size_t i = 0; i < size_matrix; i++)
-            {
-                adr_sum[i] = address_matrix1[i] + address_matrix1[i];
-            }
+        for (size_t i = 0; i < string_quantity; i++)
+                for(int j = 0; j < param_matrix[j+1]; j++)
+                    {
+                        adr_sum[i] = address_for_address1[i][j] + address_for_address2[i][j];
+                    }
         return adr_sum;
     }
-void Print_Matrix (int* address_matrix, int* copy_param_matrix, int string_quantity)
+
+void Print_Matrix (int* address_matrix, int* param_matrix, int string_quantity)
     {
-        int count = 0;
+        int Count = 0;
         for (int i = 0; i <  string_quantity)
-            for (int* i = 0; i < copy_param_matrix[i+1]; i ++)
-                {
-                    printf("%d ", address_matrix[count]);
-                    count++;
-                }
-            printf("\n");
+        for (int* i = 0; i < param_matrix[i+1]; i ++)
+            {
+                printf("%d ", address_matrix[count]);
+                Count++;
+            }
+        printf("\n");
+    }
+
+void Print_Input (bool one_or_two)
+    {
+        int n = 0;
+        if (one_or_two)
+            n = 1;
+        else
+            n = 2;
+        printf("Так выглядит %d-ая матрица", n);
     }
     {
         ;
     } */
 
-
+void Free_All (int** address_for_address1, int** address_for_address2, int* , address_matrix1, int* address_matrix2, int* adr_sum)
+    {
+        free (address_for_address1);
+        free (address_for_address2);
+        free (address_matrix1);
+        free (address_matrix2);
+        free (adr_sum);
+    }
 

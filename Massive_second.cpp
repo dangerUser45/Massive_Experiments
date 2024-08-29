@@ -6,7 +6,7 @@
 int** Processing_address (int * const string_quantity);
 int* Matrix (int ** address_for_address, const int string_quantity, bool first_or_second);
 int** Creating_an_array_of_addresses (int** address_for_address1, int string_quantity);
-//void Address_add_sizeof (size_t* address_for_address, int* address_matrix, int string_quantity);
+void Address_add_sizeof (size_t* address_for_address, int* address_matrix, int string_quantity);
 void Sum (int* address_matrix1, int* address_matrix2, size_t size_matrix);
 void Print_Matrix (int* address_matrix, int* copy_param_matrix, int string_quantity);
 
@@ -14,13 +14,14 @@ int main (void)
     {
         setlocale(LC_ALL, "Russian");
         int string_quantity = 0;
-        size_t size_matrix = 0;
-        int** address_for_address1 = Processing_address (&string_quantity, &size_matrix);
+        int** address_for_address1 = Processing_address (&string_quantity);
+        size_t size_matrix = (size_t) address_for_address1[string_quantity];
+        int copy_param_matrix [string_quantity] = address_for_address1 [];
         int** address_for_address2 = Creating_an_array_of_addresses (address_for_address1, string_quantity);
         int* address_matrix1 = Matrix (address_for_address1, string_quantity, true);
         int* address_matrix2 = Matrix (address_for_address2, string_quantity, false);
-        //Address_add_sizeof (address_for_address1, address_matrix1, string_quantity);
-        //Address_add_sizeof (address_for_address2, address_matrix2, string_quantity);
+        Address_add_sizeof (address_for_address1, address_matrix1, string_quantity);
+        Address_add_sizeof (address_for_address2, address_matrix2, string_quantity);
         int* adr_sum = Sum (address_matrix1, address_matrix2, size_matrix);
         Print_Matrix (adr_sum, copy_param_matrix, string_quantity);
         free (address_for_address1);
@@ -30,21 +31,22 @@ int main (void)
         return 0;
     }
 
-int* Matrix (size_t size_matrix, bool first_or_second )
+int* Matrix (int ** address_for_address, const int string_quantity, bool first_or_second )
     {
-        int* address_matrix = (int*) calloc (size_matrix, sizeof (int));
+        assert(address_for_address != NULL);
+        int* address_matrix = (int*) calloc ((size_t)address_for_address[string_quantity], sizeof (int));
         if (address_matrix == NULL) {printf("Не сработал второй calloc");return 0;}
         int n = 0;
         if (first_or_second) n = 1;
         else n = 2;
         printf("Введите через пробел значения всех элементов %d-ой матрицы: ", n);
 
-         for (size_t i = 0; i < size_matrix; i++)
+         for (size_t i = 0; i < (size_t)address_for_address[string_quantity]; i++)
             scanf("%d", &address_matrix[i]);
          return address_matrix;
     }
 
-int** Processing_address (int * const string_quantity, size_t* size_matrix)
+int** Processing_address (int * const string_quantity)
     {
         printf("Введите кол-во рядов : ");
         scanf("%d", string_quantity);
@@ -59,19 +61,18 @@ int** Processing_address (int * const string_quantity, size_t* size_matrix)
             {
                 scanf("%d",  &arr);
                 address_for_address1[i] = (int*) arr;
-                *size_matrix += (size_t) address_for_address1[i]
-                //address_for_address1[i] += address_for_address1[i-1];
+                address_for_address1[i] += address_for_address1[i-1];
             }
         return address_for_address1;
     }
 
- /*void Address_add_sizeof (int** address_for_address, int* address_matrix, int string_quantity)
+ void Address_add_sizeof (int** address_for_address, int* address_matrix, int string_quantity)
     {
         for (int i = 0; i <= string_quantity; i++)
             {
                address_for_address[i] = address_for_address[i] * sizeof(int) +  address_matrix;
             }
-    } */
+    }
 
 int** Creating_an_array_of_addresses (int** address_for_address1, int string_quantity)
     {

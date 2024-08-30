@@ -64,7 +64,7 @@ int** Processing_address (int * const string_quantity, size_t** param_matrix)
         scanf("%d", string_quantity);
         int ** address_for_address1 = (int **) calloc ((*string_quantity) + 1, sizeof(int*));
         (*param_matrix) = (size_t*) calloc ((*string_quantity) + 1, sizeof(size_t));
-        if (address_for_address1 == NULL || *param_matrix != NULL)
+        if (address_for_address1 == NULL || *param_matrix == NULL)
             return 0;
 
         printf("Введите кол-во элементов в каждом ряду: ");

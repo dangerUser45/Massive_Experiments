@@ -10,7 +10,7 @@ void Address_add_sizeof (int** address_for_address, int* address_matrix, int str
 int* Sum (int** address_for_address1, int** address_for_address2, size_t size_matrix, int string_quantity, size_t* param_matrix);
 void Print_Matrix (int* address_matrix, size_t* param_matrix, int string_quantity);
 void Print_Input (bool one_or_two);
-void Free_All (int** address_for_address1, int** address_for_address2, int* address_matrix1, int* address_matrix2, int* adr_sum);
+void Free_All (int** address_for_address1, int** address_for_address2, int* address_matrix1, int* address_matrix2, int* adr_sum, size_t* param_matrix);
 
 int main (void)
     {
@@ -160,12 +160,13 @@ void Print_Input (bool one_or_two)
         printf("Так выглядит %d-ая матрица:\n", n);
     }
 
-void Free_All (int** address_for_address1, int** address_for_address2, int* address_matrix1, int* address_matrix2, int* adr_sum)
+void Free_All (int** address_for_address1, int** address_for_address2, int* address_matrix1, int* address_matrix2, int* adr_sum, size_t* param_matrix)
     {
         free (address_for_address1);
         free (address_for_address2);
         free (address_matrix1);
         free (address_matrix2);
         free (adr_sum);
+        free (param_matrix);
     }
 

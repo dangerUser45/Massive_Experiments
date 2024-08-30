@@ -35,7 +35,7 @@ int main (void)
 
         int* adr_sum = Sum (address_for_address1, address_for_address2, size_matrix, string_quantity, param_matrix);
         Print_Matrix (adr_sum, param_matrix, string_quantity);
-        Free_All (address_for_address1, address_for_address2, address_matrix1, address_matrix2, adr_sum);
+        Free_All (address_for_address1, address_for_address2, address_matrix1, address_matrix2, adr_sum, param_matrix);
         return 0;
     }
 
